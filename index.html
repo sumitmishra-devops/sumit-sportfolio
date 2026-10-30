@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sumit Mishra · AWS Cloud & DevOps</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ---------- RESET & GLOBAL ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #0b0b0b;
+      color: #eaeef2;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* subtle grid texture (optional) */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(circle at 25% 30%, rgba(40, 40, 50, 0.3) 0%, transparent 40%),
+                        radial-gradient(circle at 75% 70%, rgba(30, 30, 40, 0.2) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      width: 100%;
+      padding: 2rem 1.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ---------- TYPOGRAPHY ---------- */
+    h1, h2, h3 {
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 600;
+      background: linear-gradient(to right, #ffffff, #b0b8c5);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.25rem;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #fff;
+    }
+
+    h2 i {
+      color: #6c8cff;
+      font-size: 1.6rem;
+      width: 2rem;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #e0e6f0;
+    }
+
+    .subhead {
+      font-size: 1rem;
+      color: #9aa8b9;
+      letter-spacing: 0.3px;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ---------- LAYOUT & CARDS ---------- */
+    .glass-card {
+      background: rgba(20, 22, 28, 0.75);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 28px;
+      padding: 2rem 2rem;
+      box-shadow: 0 25px 40px -15px rgba(0, 0, 0, 0.8);
+      transition: border-color 0.2s ease;
+    }
+
+    .glass-card:hover {
+      border-color: rgba(108, 140, 255, 0.2);
+    }
+
+    /* ---------- HERO SECTION ---------- */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      margin-bottom: 3.5rem;
+      align-items: center;
+    }
+
+    .hero-photo {
+      flex: 0 0 280px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .photo-frame {
+      width: 260px;
+      height: 300px;
+      border-radius: 30px;
+      overflow: hidden;
+      background: #111;
+      box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .photo-frame:hover {
+      transform: scale(1.02);
+      box-shadow: 0 25px 35px -12px rgba(108, 140, 255, 0.25);
+    }
+
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(100%) contrast(1.05);
+      transition: filter 0.4s ease;
+    }
+
+    .photo-frame:hover img {
+      filter: grayscale(30%) contrast(1.1);
+    }
+
+    .hero-info {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin: 1.2rem 0 1.5rem;
+    }
+
+    .badge {
+      background: rgba(108, 140, 255, 0.12);
+      border: 1px solid rgba(108, 140, 255, 0.25);
+      padding: 0.35rem 1.1rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #b8c7ff;
+      letter-spacing: 0.2px;
+      backdrop-filter: blur(4px);
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 1.2rem;
+      font-size: 1rem;
+    }
+
+    .contact-links a {
+      color: #cbd5e1;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: color 0.2s, transform 0.1s;
+    }
+
+    .contact-links a i {
+      color: #6c8cff;
+      width: 1.4rem;
+    }
+
+    .contact-links a:hover {
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    /* ---------- SUMMARY ---------- */
+    .summary {
+      margin-bottom: 3rem;
+    }
+
+    .summary p {
+      font-size: 1.05rem;
+      color: #cbd5e1;
+      max-width: 900px;
+    }
+
+    /* ---------- SKILLS ---------- */
+    .skills-section {
+      margin-bottom: 3rem;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-category {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 20px;
+      padding: 1.2rem 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .skill-category .category-title {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-weight: 600;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #a5b4fc;
+      margin-bottom: 0.9rem;
+    }
+
+    .skill-category .category-title i {
+      font-size: 1.1rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .skill-tags span {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 0.25rem 0.9rem;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      color: #d1dbe8;
+      transition: background 0.2s;
+    }
+
+    .skill-tags span:hover {
+      background: rgba(108, 140, 255, 0.15);
+      border-color: rgba(108, 140, 255, 0.3);
+    }
+
+    .learning {
+      border-left: 3px solid #6c8cff;
+      background: rgba(108, 140, 255, 0.05);
+    }
+
+    /* ---------- PROJECTS ---------- */
+    .projects-section {
+      margin-bottom: 3rem;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .project-card {
+      background: rgba(18, 20, 26, 0.8);
+      border-radius: 24px;
+      padding: 1.8rem 1.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      transition: transform 0.25s ease, border-color 0.25s;
+      backdrop-filter: blur(5px);
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(108, 140, 255, 0.3);
+    }
+
+    .project-card i.project-icon {
+      font-size: 1.8rem;
+      color: #6c8cff;
+      margin-bottom: 1.2rem;
+    }
+
+    .project-card h3 {
+      margin-bottom: 0.8rem;
+      font-size: 1.2rem;
+    }
+
+    .project-card p {
+      font-size: 0.92rem;
+      color: #a0adc0;
+      line-height: 1.6;
+    }
+
+    /* ---------- EDUCATION & OBJECTIVE ---------- */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 700px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .edu-item {
+      margin-bottom: 1.2rem;
+    }
+
+    .edu-item .edu-title {
+      font-weight: 600;
+      color: #e0e6f0;
+    }
+
+    .edu-item .edu-meta {
+      font-size: 0.9rem;
+      color: #8b99ae;
+      margin-top: 0.2rem;
+    }
+
+    .objective-text {
+      font-size: 1rem;
+      color: #cbd5e1;
+      line-height: 1.7;
+    }
+
+    .objective-text strong {
+      color: #b8c7ff;
+      font-weight: 500;
+    }
+
+    .career-level {
+      display: inline-block;
+      background: #1e2532;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      color: #9aaec9;
+      margin-top: 1rem;
+      border: 1px solid rgba(108, 140, 255, 0.2);
+    }
+
+    /* ---------- FOOTER ---------- */
+    .footer {
+      text-align: center;
+      padding: 2rem 0 1rem;
+      color: #5f6c80;
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      margin-top: 2rem;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .container {
+        padding: 1.5rem 1rem;
+      }
+
+      .glass-card {
+        padding: 1.5rem;
+      }
+
+      .hero-photo {
+        flex: 0 0 100%;
+      }
+
+      .photo-frame {
+        width: 220px;
+        height: 260px;
+      }
+
+      .contact-links {
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+    }
+
+    /* smooth reveal animations (optional) */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(15px);
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- HERO SECTION -->
+    <div class="hero fade-in">
+      <div class="hero-photo">
+        <div class="photo-frame">
+          <!-- Placeholder for the portrait: black & white photo from the description -->
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%231a1d24'/%3E%3Ccircle cx='200' cy='180' r='70' fill='%232d323d'/%3E%3Cpath d='M120 380 Q200 300 280 380 L280 440 L120 440 Z' fill='%232d323d'/%3E%3Ctext x='200' y='460' font-family='Inter, sans-serif' font-size='14' fill='%235a6272' text-anchor='middle'%3ESUMIT MISHRA%3C/text%3E%3C/svg%3E"
+               alt="Sumit Mishra portrait placeholder (black and white style)">
+          <!-- The actual image would be embedded here (b&w portrait) -->
+        </div>
+      </div>
+      <div class="hero-info">
+        <h1>Sumit Mishra</h1>
+        <div class="subhead">Aspiring AWS Cloud & DevOps Engineer · IT Fresher</div>
+        <div class="badge-row">
+          <span class="badge"><i class="fas fa-cloud" style="margin-right: 5px;"></i>AWS</span>
+          <span class="badge"><i class="fas fa-network-wired" style="margin-right: 5px;"></i>Networking</span>
+          <span class="badge"><i class="fab fa-linux" style="margin-right: 5px;"></i>Linux</span>
+          <span class="badge"><i class="fas fa-code-branch" style="margin-right: 5px;"></i>DevOps (learning)</span>
+        </div>
+        <div class="contact-links">
+          <a href="tel:6386834810"><i class="fas fa-phone-alt"></i> 6386834810</a>
+          <a href="mailto:sumitmishranelu@gmail.com"><i class="fas fa-envelope"></i> sumitmishranelu@gmail.com</a>
+          <a href="https://linkedin.com/in/sumit-mishra-0018703b3" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> LinkedIn</a>
+          <a href="https://github.com/sumitmishra-devops" target="_blank" rel="noopener"><i class="fab fa-github"></i> GitHub</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFESSIONAL SUMMARY -->
+    <div class="glass-card summary fade-in delay-1">
+      <h2><i class="fas fa-user-astronaut"></i> Professional Summary</h2>
+      <p>IT fresher with a Bachelor of Science degree and hands-on learning experience in computer networking, Linux fundamentals, and AWS Cloud. Practiced launching and connecting to EC2 instances, installing Nginx, hosting a custom webpage, and configuring Amazon S3 buckets, access policies, and versioning. Building further skills in AWS networking, Python scripting, and DevOps tools. Seeking an entry-level opportunity in cloud support, Linux support, network support, or junior DevOps.</p>
+    </div>
+
+    <!-- TECHNICAL SKILLS -->
+    <div class="skills-section fade-in delay-1">
+      <h2><i class="fas fa-cogs"></i> Technical Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-category">
+          <div class="category-title"><i class="fas fa-network-wired"></i> Networking</div>
+          <div class="skill-tags">
+            <span>IP addressing</span><span>Subnetting</span><span>Routing & switching</span><span>VLAN</span><span>VTP</span><span>Telnet</span><span>Basic troubleshooting</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <div class="category-title"><i class="fab fa-linux"></i> Linux</div>
+          <div class="skill-tags">
+            <span>Command line</span><span>File & directory ops</span><span>Basic administration</span><span>Nginx install & config</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <div class="category-title"><i class="fas fa-cloud"></i> AWS</div>
+          <div class="skill-tags">
+            <span>EC2</span><span>S3</span><span>SSH connection</span><span>Security groups</span><span>Bucket policies</span><span>Versioning</span><span>EC2–S3 integration</span>
+          </div>
+        </div>
+        <div class="skill-category learning">
+          <div class="category-title"><i class="fas fa-graduation-cap"></i> Currently learning</div>
+          <div class="skill-tags">
+            <span>VPC & CIDR</span><span>Python scripting</span><span>Docker</span><span>Jenkins</span><span>Terraform</span><span>Kubernetes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECTS & LABS -->
+    <div class="projects-section fade-in delay-2">
+      <h2><i class="fas fa-flask"></i> Hands-on Projects & Labs</h2>
+      <div class="projects-grid">
+        <div class="project-card">
+          <i class="fas fa-server project-icon"></i>
+          <h3>EC2 Web Server Deployment with Nginx</h3>
+          <p>Launched an EC2 instance; connected through SSH; installed Nginx; hosted a custom HTML webpage; practiced HTTP access and security group configuration.</p>
+        </div>
+        <div class="project-card">
+          <i class="fas fa-database project-icon"></i>
+          <h3>Amazon S3 Bucket Management</h3>
+          <p>Created buckets; practiced public and private access settings, bucket policies, versioning, regional bucket access, and connecting S3 storage with EC2.</p>
+        </div>
+        <div class="project-card">
+          <i class="fas fa-diagram-project project-icon"></i>
+          <h3>Networking Practice Labs</h3>
+          <p>Practiced IP addressing, subnetting, routing and switching concepts, VLAN and VTP configuration, and Telnet connectivity.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- EDUCATION & CAREER OBJECTIVE -->
+    <div class="two-col fade-in delay-2">
+      <div class="glass-card" style="padding: 1.8rem;">
+        <h2><i class="fas fa-graduation-cap"></i> Education</h2>
+        <div class="edu-item">
+          <div class="edu-title">Bachelor of Science (B.Sc.) — 2026</div>
+          <div class="edu-meta">Dr. Ram Manohar Lohia Avadh University</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-title">Class XII — 2022</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-title">Class X — 2021</div>
+        </div>
+      </div>
+      <div class="glass-card" style="padding: 1.8rem;">
+        <h2><i class="fas fa-bullseye"></i> Career Objective</h2>
+        <div class="objective-text">
+          Seeking an entry-level role as a <strong>Network Support Engineer</strong>, <strong>Linux Support Engineer</strong>, <strong>Cloud Support Engineer</strong>, or <strong>Junior DevOps Engineer</strong> to apply foundational technical knowledge, strengthen practical skills, and contribute to IT infrastructure projects.
+        </div>
+        <div class="career-level"><i class="fas fa-briefcase" style="margin-right: 6px;"></i>Fresher / Entry-level · Target: AWS Cloud, IT Infrastructure, Networking & DevOps</div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <p>© 2026 Sumit Mishra · Built with <i class="fas fa-heart" style="color: #6c8cff;"></i> for cloud & code</p>
+    </div>
+  </div>
+
+  <!-- tiny JS for smooth scroll (if needed) and future interactions -->
+  <script>
+    (function() {
+      // Just a simple console greet – can be extended.
+      console.log('Sumit Mishra · AWS Cloud & DevOps portfolio');
+      
+      // Add 'active' class on hover for project cards (already in CSS)
+      // Optional: smooth scroll for anchor links (none currently, but safe)
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
